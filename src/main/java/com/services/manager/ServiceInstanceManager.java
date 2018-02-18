@@ -27,11 +27,6 @@ public class ServiceInstanceManager {
     private final ObjectMapper objectMapper;
 
 
-    public ServiceInstanceManager(ObjectMapper mapper, ServiceInstanceBean serviceInstanceBean) {
-        this.objectMapper = mapper;
-        this.instanceBean = serviceInstanceBean;
-    }
-
     public ServiceInstanceBean populateServiceInstanceBean(String serviceName) {
         instanceBean.setRequestedServiceName(serviceName);
         requestedServiceEndpoints(serviceName);

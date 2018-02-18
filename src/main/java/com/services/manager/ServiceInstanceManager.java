@@ -26,6 +26,10 @@ public class ServiceInstanceManager {
     private final ServiceInstanceBean instanceBean;
     private final ObjectMapper objectMapper;
 
+    public ServiceInstanceManager(ObjectMapper mapper, ServiceInstanceBean serviceInstanceBean) {
+        this.objectMapper = mapper;
+        this.instanceBean = serviceInstanceBean;
+    }
 
     public ServiceInstanceBean populateServiceInstanceBean(String serviceName) {
         instanceBean.setRequestedServiceName(serviceName);
@@ -42,33 +46,6 @@ public class ServiceInstanceManager {
             case servicename:
                 setServiceInstanceMap(SERVICE_URL, SERVICE_INSTANCES);
                 break;
-
-        }
-    }
-
-    private void setKMSInstanceMap(final String address, int numberOfInstancesExpected) {
-        BufferedReader serviceInstanceReader;
-        URL url;
-        int currentInstanceCount = 0;
-        try {
-            url = new URL(address);
-            serviceInstanceReader = new BufferedReader(new InputStreamReader(url.openStream(), "UTF-8"));
-            String servicePingOutput = org.apache.commons.io.IOUtils.toString(serviceInstanceReader);
-            currentInstanceCount = objectMapper.readTree(servicePingOutput).get(INSTANCE).asInt();
-        } catch (MalformedURLException malFormedException) {
-            log.error("Error in URL", malFormedException);
-        } catch (IOException ioException) {
-            log.error("Error in connection", ioException);
-        } catch (Exception exception) {
-            log.error("Error in fetching instances", exception);
-        }
-        instanceBean.setActualServiceInstances(currentInstanceCount);
-        instanceBean.setServiceInstanceMap(Collections.emptyMap());
-        instanceBean.setExpectedServiceInstances(numberOfInstancesExpected);
-        if (currentInstanceCount < numberOfInstancesExpected) {
-            instanceBean.setServiceState(FAULT);
-        } else {
-            instanceBean.setServiceState(ONLINE);
 
         }
     }

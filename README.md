@@ -8,3 +8,6 @@ In ServiceInstanceConstant class:
 2. Replace SERVICE_INSTANCES with actual number of instances of that service
 (You can add as many service as you want)
 3. In ServiceInstanceManager class update service name in requestedServiceEndpoints() method accordinly and you are good to go
+
+Deployment:
+Apart from local deployment, you can deploy above project file on Heroku or AWS Elastic Beanstalk.
